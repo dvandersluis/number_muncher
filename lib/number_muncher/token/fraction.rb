@@ -31,12 +31,24 @@ module NumberMuncher
     private
 
       def parse
-        sign, whole, numerator, denominator, unicode = scanner.captures.map(&:presence)
+        sign, whole, numerator, denominator, unicode = captures
 
         value = unicode ? NumberMuncher::Unicode::MAPPING[unicode] : Rational(numerator, denominator)
         value += Int.new(whole).to_r if whole
         value *= -1 if sign
         value
+      end
+
+      def captures
+        if scanner.respond_to?(:captures)
+          scanner.captures.map(&:presence)
+        else
+          match = self.class.regex.match(value)
+
+          match.regexp.named_captures.each_with_object([]) do |(capture, _), arr|
+            arr << match[capture]
+          end
+        end
       end
     end
   end
