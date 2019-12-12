@@ -29,4 +29,3 @@ require 'number_muncher/token/float'
 require 'number_muncher/token/fraction'
 
 require 'number_muncher/parser'
-

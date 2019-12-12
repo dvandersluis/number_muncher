@@ -1,10 +1,54 @@
 # NumberMuncher
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/number_muncher`. To experiment with that code, run `bin/console` for an interactive prompt.
+[![Build Status](https://travis-ci.org/dvandersluis/fractions.svg?branch=master)](https://travis-ci.org/dvandersluis/fractions)
+[![Gem Version](https://badge.fury.io/rb/number_muncher.svg)](https://badge.fury.io/rb/number_muncher)
 
-TODO: Delete this and the text above, and describe your gem
+Parses strings into numbers, including integers, decimals, and fractions (including unicode fraction glyphs like `⅐`). 
+
+<p align="center">
+  <img src="assets/muncher.jpg" width="15%" height="15%">
+  <br/>
+  <sup align="center">
+    A <a href="https://en.wikipedia.org/wiki/Munchers#Number_Munchers">Number Muncher</a>
+  </sup>
+</p>
+
+## Usage
+
+### Parsing
+
+Parsing a numeric string for a single `Rational` (which can then have `to_i`, `to_f`, etc. called on it as per your needs):
+
+```ruby
+NumberMuncher.parse('4 1/2')
+#=> 9/2r
+```
+
+If the input string contains multiple numbers (other than mixed fractions), `NumberMuncher::InvalidParseExpression` will be raised.
+
+#### Formats
+
+`NumberMuncher` accepts the following formats (with an optional leading `-`):
+
+* Integers (with or without separators): `1`, `-1`, `5,394`, `9592`, etc.
+* Decimals (with or without separators): `3.5`, `-7.4`, `9,104.94`, etc.
+* Fractions: `3/5`, `-19/20`, `¾`, etc. (see [`unicode.rb`](lib/number_muncher/unicode.rb) for a full list of supported Unicode fraction glyphs).
+* Mixed fractions (with or without separators): `3 3/4`, `-1⅔`, `1,234 ⅚`, etc.
+
+Other inputs, including invalid fractions (eg. `1/0`), are considered invalid and will raise `NumberMuncher::InvalidNumber`.
+
+### Scanning
+
+Returns all the numbers in a string, as `Rational`s.
+
+```ruby
+NumberMuncher.scan('Cook at 375° for 10 minutes, flip and cook for another 5.5 minutes')
+# => [375r, 10r, 11/2r]
+```
 
 ## Installation
+
+`NumberMuncher` requires ruby >= 2.3.
 
 Add this line to your application's Gemfile:
 
@@ -20,16 +64,15 @@ Or install it yourself as:
 
     $ gem install number_muncher
 
-## Usage
+## Configuration
 
-TODO: Write usage instructions here
+Separators for thousands and decimals can be configured. Default values are shown below:
 
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+NumberMuncher.thousands_separator = ','
+NumberMuncher.decimal_separator = '.'
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/number_muncher.
+Bug reports and pull requests are welcome on GitHub at https://github.com/dvandersluis/number_muncher.
