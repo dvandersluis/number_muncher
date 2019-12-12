@@ -8,6 +8,15 @@ inherit_mode:
 AllCops:
   TargetRubyVersion: 2.6
 
+Layout/EmptyLinesAroundExceptionHandlingKeywords:
+  Enabled: false
+
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
+Lint/NonDeterministicRequireOrder:
+  Enabled: false
+
 RSpec/ExpectActual:
   Exclude:
-    - spec/number_muncher/string_parser_spec.rb
+    - spec/number_muncher/parser_spec.rb
