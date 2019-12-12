@@ -42,6 +42,10 @@ module NumberMuncher
         super
       end
 
+      def inspect
+        to_a.to_s
+      end
+
     private
 
       attr_reader :scanner

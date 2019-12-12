@@ -11,6 +11,6 @@ RSpec::Matchers.define(:parse_to) do |expected|
   end
 
   failure_message do |actual|
-    "expected that #{actual} would be a multiple of #{expected}, but was #{@result}"
+    "expected that #{actual} would parse to #{expected}, but was #{@result}"
   end
 end

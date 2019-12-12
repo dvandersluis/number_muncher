@@ -175,6 +175,12 @@ RSpec.describe NumberMuncher::Tokenizer do
 
       it { is_expected.to eq([[:fraction, 7/4r]]) }
     end
+
+    context 'with new lines' do
+      subject { described_class.new("1\n½").tokenize }
+
+      it { is_expected.to eq([[:fraction, 3/2r]]) }
+    end
   end
 
   context 'phrases' do
@@ -205,7 +211,7 @@ RSpec.describe NumberMuncher::Tokenizer do
     end
 
     context '15 quick brown foxes jumped over 3.785 lazy dogs 1½ times' do
-      subject { described_class.new('15 quick brown foxes jumped over 3.785 lazy dogs 1½ times').tokenize }
+      subject { described_class.new('15 quick brown foxes\n jumped over 3.785 lazy dogs 1½ times').tokenize }
 
       let(:tokens) do
         [
