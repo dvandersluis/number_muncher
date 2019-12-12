@@ -1,23 +1,17 @@
 module NumberMuncher
   class Token
     class Float < Token
-      REGEX = lambda do |decimal_sep, thousands_sep|
-        /(#{Int::REGEX.call(thousands_sep)}|-?)#{Regexp.quote(decimal_sep)}\d+/
-      end
-
-      def initialize(value, decimal_separator, thousands_separator)
-        super(value)
-        @decimal_separator = decimal_separator
-        @thousands_separator = thousands_separator
+      def self.regex
+        /(#{Int.regex}|-?)#{Regexp.quote(NumberMuncher.decimal_separator)}\d+/
       end
 
       def value
-        super.delete(thousands_separator).tr(decimal_separator, '.').delete('-')
+        super.delete(NumberMuncher.thousands_separator).tr(NumberMuncher.decimal_separator, '.')
       end
 
-    private
-
-      attr_reader :decimal_separator, :thousands_separator
+      def float?
+        true
+      end
     end
   end
 end

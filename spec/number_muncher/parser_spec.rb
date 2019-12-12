@@ -6,11 +6,17 @@ RSpec.describe NumberMuncher::Parser do
 
     context 'when given invalid input' do
       it 'raises an exception' do
-        expect { described_class.new.parse('a') }.to raise_error(NumberMuncher::CannotParseError)
-        expect { described_class.new.parse('a/2') }.to raise_error(NumberMuncher::CannotParseError)
-        expect { described_class.new.parse('1/2 abc') }.to raise_error(NumberMuncher::CannotParseError)
-        expect { described_class.new.parse('abc 1/2') }.to raise_error(NumberMuncher::CannotParseError)
-        expect { described_class.new.parse('1/0') }.to raise_error(NumberMuncher::CannotParseError)
+        expect { described_class.parse('a') }.to raise_error(NumberMuncher::InvalidNumber)
+        expect { described_class.parse('a/2') }.to raise_error(NumberMuncher::InvalidNumber)
+        expect { described_class.parse('1/2 abc') }.to raise_error(NumberMuncher::InvalidNumber)
+        expect { described_class.parse('abc 1/2') }.to raise_error(NumberMuncher::InvalidNumber)
+        expect { described_class.parse('1/0') }.to raise_error(NumberMuncher::InvalidNumber)
+      end
+    end
+
+    context 'when given a phrase' do
+      it 'raises an exception' do
+        expect { described_class.parse('1 2') }.to raise_error(NumberMuncher::InvalidParseExpression)
       end
     end
 

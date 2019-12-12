@@ -1,12 +1,13 @@
 RSpec::Matchers.define(:parse_to) do |expected|
   match do |actual|
-    @options ||= {}
-    @result = described_class.new(**@options).parse(actual)
+    @result = described_class.parse(actual)
     expect(@result).to eq(expected)
   end
 
   chain :with_options do |**options|
-    @options = options
+    options.each do |key, val|
+      allow(NumberMuncher.config).to receive(key).and_return(val)
+    end
   end
 
   failure_message do |actual|

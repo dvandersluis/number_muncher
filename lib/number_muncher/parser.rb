@@ -1,20 +1,16 @@
 module NumberMuncher
   class Parser
-    def initialize(**options)
-      @options = options
-    end
-
-    def parse(string)
-      tokenizer = NumberMuncher::Tokenizer.new(string, **@options)
+    def self.parse(string)
+      tokenizer = NumberMuncher::Tokenizer.new(string)
       tokens = tokenizer.tokenize(raise: true)
       return nil if tokens.empty?
 
-      result = tokens.map(&:to_r).inject(:+)
-      result *= -1 if tokenizer.negative?
-      result
+      raise InvalidParseExpression, 'parse requires a single number' unless tokens.size == 1
+
+      tokens.first.to_r
 
     rescue ArgumentError, ZeroDivisionError
-      raise CannotParseError, "#{string} is not valid input to parse."
+      raise InvalidNumber, "#{string} is not valid input to parse."
     end
   end
 end

@@ -1,20 +1,17 @@
 module NumberMuncher
   class Token
     class Int < Token
-      REGEX = -> (thousands_sep) { /-?(\d{1,3}(#{Regexp.quote(thousands_sep)}\d{3})+|\d+)/ }
-
-      def initialize(value, thousands_separator)
-        super(value)
-        @thousands_separator = thousands_separator
+      def self.regex
+        /-?(\d{1,3}(#{Regexp.quote(NumberMuncher.thousands_separator)}\d{3})+|\d+)/
       end
 
       def value
-        super.delete(thousands_separator).delete('-')
+        super.delete(NumberMuncher.thousands_separator)
       end
 
-    private
-
-      attr_reader :thousands_separator
+      def int?
+        true
+      end
     end
   end
 end

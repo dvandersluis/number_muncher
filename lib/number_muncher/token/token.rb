@@ -2,24 +2,27 @@ module NumberMuncher
   class Token
     class Token
       attr_reader :value
+      attr_accessor :raw_value
 
-      def self.scan(scanner, *opts)
-        regex = self::REGEX
-        regex = regex.call(*opts) if regex.respond_to?(:call)
-
-        new(scanner.matched, *opts) if scanner.scan(regex)
+      def self.scan(scanner)
+        new(scanner.matched, scanner) if scanner.scan(regex)
       end
 
-      def initialize(value)
+      def initialize(value, scanner = nil)
         @raw_value = @value = value
+        @scanner = scanner
       end
 
-      def negative?
-        @raw_value.start_with?('-')
+      def int?
+        false
       end
 
-      def valid?
-        true
+      def float?
+        false
+      end
+
+      def fraction?
+        false
       end
 
       def to_r
@@ -29,8 +32,7 @@ module NumberMuncher
       def to_a
         [
           self.class.name.demodulize.underscore.to_sym,
-          to_r,
-          negative?
+          to_r
         ]
       end
 
@@ -39,6 +41,10 @@ module NumberMuncher
 
         super
       end
+
+    private
+
+      attr_reader :scanner
     end
   end
 end

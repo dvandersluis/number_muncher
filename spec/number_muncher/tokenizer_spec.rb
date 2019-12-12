@@ -17,31 +17,31 @@ RSpec.describe NumberMuncher::Tokenizer do
     context '1' do
       subject { described_class.new('1').tokenize }
 
-      it { is_expected.to eq([[:int, 1, false]]) }
+      it { is_expected.to eq([[:int, 1]]) }
     end
 
     context '-1' do
       subject { described_class.new('-1').tokenize }
 
-      it { is_expected.to eq([[:int, 1, true]]) }
+      it { is_expected.to eq([[:int, -1]]) }
     end
 
     context '1000' do
       subject { described_class.new('1000').tokenize }
 
-      it { is_expected.to eq([[:int, 1000, false]]) }
+      it { is_expected.to eq([[:int, 1000]]) }
     end
 
     context '1,000' do
       subject { described_class.new('1,000').tokenize }
 
-      it { is_expected.to eq([[:int, 1000, false]]) }
+      it { is_expected.to eq([[:int, 1000]]) }
     end
 
     context '-1,000' do
       subject { described_class.new('-1,000').tokenize }
 
-      it { is_expected.to eq([[:int, 1000, true]]) }
+      it { is_expected.to eq([[:int, -1000]]) }
     end
   end
 
@@ -49,25 +49,25 @@ RSpec.describe NumberMuncher::Tokenizer do
     context '-.5' do
       subject { described_class.new('-.5').tokenize }
 
-      it { is_expected.to eq([[:float, 1/2r, true]]) }
+      it { is_expected.to eq([[:float, -1/2r]]) }
     end
 
     context '-0.5' do
       subject { described_class.new('-0.5').tokenize }
 
-      it { is_expected.to eq([[:float, 1/2r, true]]) }
+      it { is_expected.to eq([[:float, -1/2r]]) }
     end
 
     context '1000.005' do
       subject { described_class.new('1000.005').tokenize }
 
-      it { is_expected.to eq([[:float, 1000.005, false]]) }
+      it { is_expected.to eq([[:float, 1000.005]]) }
     end
 
     context '-1,000.345' do
       subject { described_class.new('-1,000.345').tokenize }
 
-      it { is_expected.to eq([[:float, 1000.345, true]]) }
+      it { is_expected.to eq([[:float, -1000.345]]) }
     end
   end
 
@@ -75,43 +75,43 @@ RSpec.describe NumberMuncher::Tokenizer do
     context '½' do
       subject { described_class.new('½').tokenize }
 
-      it { is_expected.to eq([[:fraction, 1/2r, false]]) }
+      it { is_expected.to eq([[:fraction, 1/2r]]) }
     end
 
     context '⅐' do
       subject { described_class.new('⅐').tokenize }
 
-      it { is_expected.to eq([[:fraction, 1/7r, false]]) }
+      it { is_expected.to eq([[:fraction, 1/7r]]) }
     end
 
     context '-½' do
       subject { described_class.new('-½').tokenize }
 
-      it { is_expected.to eq([[:fraction, 1/2r, true]]) }
+      it { is_expected.to eq([[:fraction, -1/2r]]) }
     end
 
     context '3/8' do
       subject { described_class.new('3/8').tokenize }
 
-      it { is_expected.to eq([[:fraction, 3/8r, false]]) }
+      it { is_expected.to eq([[:fraction, 3/8r]]) }
     end
 
     context '-3/8' do
       subject { described_class.new('-3/8').tokenize }
 
-      it { is_expected.to eq([[:fraction, 3/8r, true]]) }
+      it { is_expected.to eq([[:fraction, -3/8r]]) }
     end
 
     context '3 / 8' do
       subject { described_class.new('3 / 8').tokenize }
 
-      it { is_expected.to eq([[:fraction, 3/8r, false]]) }
+      it { is_expected.to eq([[:fraction, 3/8r]]) }
     end
 
     context '3/08' do
       subject { described_class.new('3/08').tokenize }
 
-      it { is_expected.to eq([[:fraction, 3/8r, false]]) }
+      it { is_expected.to eq([[:fraction, 3/8r]]) }
     end
   end
 
@@ -119,45 +119,37 @@ RSpec.describe NumberMuncher::Tokenizer do
     context '1,000,000 ⅜' do
       subject { described_class.new('1,000,000 ⅜').tokenize }
 
-      it {
-        expect(subject).to eq([
-          [:int, 1_000_000, false],
-          [:fraction, 3/8r, false]
-        ])
-      }
+      it { is_expected.to eq([[:fraction, 8_000_003/8r]]) }
     end
 
     context '-1½' do
       subject { described_class.new('-1½').tokenize }
 
-      it {
-        expect(subject).to eq([
-          [:int, 1, true],
-          [:fraction, 1/2r, false]
-        ])
-      }
+      it { is_expected.to eq([[:fraction, -3/2r]]) }
     end
 
     context '1½' do
       subject { described_class.new('1½').tokenize }
 
-      it {
-        expect(subject).to eq([
-          [:int, 1, false],
-          [:fraction, 1/2r, false]
-        ])
-      }
+      it { is_expected.to eq([[:fraction, 3/2r]]) }
     end
 
     context '1 ½' do
       subject { described_class.new('1 ½').tokenize }
 
-      it {
-        expect(subject).to eq([
-          [:int, 1, false],
-          [:fraction, 1/2r, false]
-        ])
-      }
+      it { is_expected.to eq([[:fraction, 3/2r]]) }
+    end
+
+    context '-1 ½' do
+      subject { described_class.new('-1 ½').tokenize }
+
+      it { is_expected.to eq([[:fraction, -3/2r]]) }
+    end
+
+    context '3⅐' do
+      subject { described_class.new('3⅐').tokenize }
+
+      it { is_expected.to eq([[:fraction, 22/7r]]) }
     end
   end
 
@@ -167,8 +159,8 @@ RSpec.describe NumberMuncher::Tokenizer do
 
       let(:tokens) do
         [
-          [:int, 3, false],
-          [:fraction, 1/7r, false]
+          [:int, 3],
+          [:fraction, 1/7r]
         ]
       end
 
@@ -180,9 +172,8 @@ RSpec.describe NumberMuncher::Tokenizer do
 
       let(:tokens) do
         [
-          [:int, 1, true],
-          [:int, 2, false],
-          [:fraction, 1/2r, false]
+          [:int, -1],
+          [:fraction, 5/2r]
         ]
       end
 
@@ -194,10 +185,9 @@ RSpec.describe NumberMuncher::Tokenizer do
 
       let(:tokens) do
         [
-          [:int, 15, false],
-          [:float, 3.785, false],
-          [:int, 1, false],
-          [:fraction, 1/2r, false]
+          [:int, 15],
+          [:float, 3.785],
+          [:fraction, 3/2r]
         ]
       end
 
@@ -207,7 +197,7 @@ RSpec.describe NumberMuncher::Tokenizer do
 
   context 'when raising on invalid input' do
     it 'raises if an invalid token is encountered' do
-      expect { described_class.new('abc').tokenize(raise: true) }.to raise_error(NumberMuncher::CannotParseError)
+      expect { described_class.new('abc').tokenize(raise: true) }.to raise_error(NumberMuncher::InvalidNumber)
     end
 
     it 'does not raise if no invalid token is encountered' do
