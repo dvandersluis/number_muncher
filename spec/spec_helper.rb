@@ -1,5 +1,10 @@
 require 'bundler/setup'
 require 'number_muncher'
+require 'pry'
+
+root = Pathname.new(File.dirname(__dir__))
+
+Dir[root.join('spec/support/matchers/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   config.expect_with(:rspec) do |expectations|
