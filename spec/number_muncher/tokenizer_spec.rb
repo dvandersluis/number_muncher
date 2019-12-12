@@ -163,6 +163,18 @@ RSpec.describe NumberMuncher::Tokenizer do
 
       it { is_expected.to eq([[:fraction, -39/20r]]) }
     end
+
+    context '1-3/4' do
+      subject { described_class.new('1-3/4').tokenize }
+
+      it { is_expected.to eq([[:fraction, 7/4r]]) }
+    end
+
+    context '1-¾' do
+      subject { described_class.new('1-¾').tokenize }
+
+      it { is_expected.to eq([[:fraction, 7/4r]]) }
+    end
   end
 
   context 'phrases' do
