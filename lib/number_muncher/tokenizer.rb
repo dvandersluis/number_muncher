@@ -19,14 +19,7 @@ module NumberMuncher
 
     def tokenize(raise: false)
       @tokens = []
-
-      until scanner.eos?
-        scanner.skip(/\s+/)
-        token = next_token
-        tokens << token if token
-        handle_invalid(raise)
-      end
-
+      scan(raise) until scanner.eos?
       tokens
     end
 
@@ -45,6 +38,16 @@ module NumberMuncher
 
     def scanner
       @scanner ||= StringScanner.new(string)
+    end
+
+    def scan(raise)
+      scanner.skip(/\s+/)
+      token = next_token
+      tokens << token if token
+      handle_invalid(raise)
+
+    rescue ZeroDivisionError
+      Kernel.raise if raise
     end
 
     def next_token

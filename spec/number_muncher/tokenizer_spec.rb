@@ -5,6 +5,12 @@ RSpec.describe NumberMuncher::Tokenizer do
 
       it { is_expected.to be_empty }
     end
+
+    context '1/0' do
+      subject { described_class.new('1/0').tokenize }
+
+      it { is_expected.to be_empty }
+    end
   end
 
   context 'integers' do
@@ -98,6 +104,12 @@ RSpec.describe NumberMuncher::Tokenizer do
 
     context '3 / 8' do
       subject { described_class.new('3 / 8').tokenize }
+
+      it { is_expected.to eq([[:fraction, 3/8r, false]]) }
+    end
+
+    context '3/08' do
+      subject { described_class.new('3/08').tokenize }
 
       it { is_expected.to eq([[:fraction, 3/8r, false]]) }
     end
