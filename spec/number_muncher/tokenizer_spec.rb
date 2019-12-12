@@ -113,6 +113,12 @@ RSpec.describe NumberMuncher::Tokenizer do
 
       it { is_expected.to eq([[:fraction, 3/8r]]) }
     end
+
+    context '-19/20' do
+      subject { described_class.new('-19/20').tokenize }
+
+      it { is_expected.to eq([[:fraction, -19/20r]]) }
+    end
   end
 
   context 'mixed fractions' do
@@ -150,6 +156,12 @@ RSpec.describe NumberMuncher::Tokenizer do
       subject { described_class.new('3⅐').tokenize }
 
       it { is_expected.to eq([[:fraction, 22/7r]]) }
+    end
+
+    context '-1 19/20' do
+      subject { described_class.new('-1 19/20').tokenize }
+
+      it { is_expected.to eq([[:fraction, -39/20r]]) }
     end
   end
 

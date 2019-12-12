@@ -6,7 +6,7 @@ module NumberMuncher
       def self.regex
         %r{
           (?<sign>-)?
-          (?<whole>#{Int.regex}\s*)?
+          (?<whole>#{Int.regex}\s*)??
           (
             (?<numerator>\d+)\s*/\s*(?<denominator>\d+)
             |
