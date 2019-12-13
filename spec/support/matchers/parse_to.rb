@@ -1,6 +1,6 @@
 RSpec::Matchers.define(:parse_to) do |expected|
   match do |actual|
-    @result = described_class.parse(actual)
+    @result = described_class.call(actual)
     expect(@result).to eq(expected)
   end
 

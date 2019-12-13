@@ -1,8 +1,7 @@
 module NumberMuncher
   class Parser
-    def self.parse(string)
-      tokenizer = NumberMuncher::Tokenizer.new(string)
-      tokens = tokenizer.tokenize(raise: true)
+    def self.call(string)
+      tokens = NumberMuncher::Tokenizer.new(string).call(raise: true)
       return nil if tokens.empty?
 
       raise InvalidParseExpression, 'parse requires a single number' unless tokens.size == 1

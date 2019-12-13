@@ -12,14 +12,10 @@ module NumberMuncher
       @string = string
     end
 
-    def tokenize(raise: false)
+    def call(raise: false)
       @tokens = []
       scan(raise) until scanner.eos?
       tokens
-    end
-
-    def ==(other)
-      tokens == other
     end
 
   private
