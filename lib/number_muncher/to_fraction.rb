@@ -46,7 +46,8 @@ module NumberMuncher
     end
 
     def fraction
-      (whole ? rational.abs - whole : rational).abs.then { |f| f.zero? ? nil : f }
+      value = (whole ? rational.abs - whole : rational).abs
+      value.zero? ? nil : value
     end
 
     def sign
