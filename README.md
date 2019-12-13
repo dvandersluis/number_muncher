@@ -60,7 +60,12 @@ NumberMuncher.to_fraction(9.625, unicode: false) #=> '9 5/8'
 
 # Rounding:
 NumberMuncher.to_fraction(3/7r, round_to: 1/4r) #=> '½'
-``` 
+
+# Rationalizing (adjust the fraction precision, default = 0.001):
+NumberMuncher.to_fraction(Math::PI) #=> '3 9/64'
+NumberMuncher.to_fraction(Math::PI, factor: 0.1) #=> '3⅕'
+NumberMuncher.to_fraction(Math::PI, factor: 0.0000000000000001) #=> '3 39854788871587/281474976710656'  
+```
 
 ## Installation
 
