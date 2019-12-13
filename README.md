@@ -46,6 +46,22 @@ NumberMuncher.scan('Cook at 375° for 10 minutes, flip and cook for another 5.5 
 # => [375r, 10r, 11/2r]
 ```
 
+### Formatting
+
+Returns a fraction string for a given numeric value.
+
+```ruby
+NumberMuncher.to_fraction(1/4r) #=> '¼'
+NumberMuncher.to_fraction(9.625) #=> '9⅝'
+
+# Without using unicode glyphs:
+NumberMuncher.to_fraction(1/4r, unicode: false) #=> '1/4'
+NumberMuncher.to_fraction(9.625, unicode: false) #=> '9 5/8'
+
+# Rounding:
+NumberMuncher.to_fraction(3/7r, round_to: 1/4r) #=> '½'
+``` 
+
 ## Installation
 
 `NumberMuncher` requires ruby >= 2.3.

@@ -7,6 +7,7 @@ module NumberMuncher
 
   class InvalidNumber < StandardError; end
   class InvalidParseExpression < StandardError; end
+  class IllegalRoundValue < StandardError; end
 
   config_accessor(:thousands_separator, instance_accessor: false) { ',' }
   config_accessor(:decimal_separator, instance_accessor: false) { '.' }
@@ -17,6 +18,10 @@ module NumberMuncher
 
   def self.scan(str)
     Tokenizer.new(str).tokenize
+  end
+
+  def self.to_fraction(value, round_to: nil, **opts)
+    ToFraction.new(**opts).call(value, round_to: round_to)
   end
 end
 
