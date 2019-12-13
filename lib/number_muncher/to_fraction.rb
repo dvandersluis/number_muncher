@@ -23,14 +23,7 @@ module NumberMuncher
     alias_method :unicode?, :unicode
 
     def rationalize(number, round_to)
-      number = Rational(number)
-      (round_to ? round(number, Rational(round_to)) : number).rationalize(factor)
-    end
-
-    def round(number, round_to)
-      raise IllegalRoundValue, 'round must not be 0' if round_to.zero?
-
-      (number / round_to).round * round_to
+      Numeric.new(number).round(round_to).rationalize(factor)
     end
 
     def glyph

@@ -6,17 +6,37 @@ RSpec.describe NumberMuncher::Parser do
 
     context 'when given invalid input' do
       it 'raises an exception' do
-        expect { described_class.call('a') }.to raise_error(NumberMuncher::InvalidNumber)
-        expect { described_class.call('a/2') }.to raise_error(NumberMuncher::InvalidNumber)
-        expect { described_class.call('1/2 abc') }.to raise_error(NumberMuncher::InvalidNumber)
-        expect { described_class.call('abc 1/2') }.to raise_error(NumberMuncher::InvalidNumber)
-        expect { described_class.call('1/0') }.to raise_error(NumberMuncher::InvalidNumber)
+        expect { described_class.new('a').call }.to raise_error(NumberMuncher::InvalidNumber)
+        expect { described_class.new('a/2').call }.to raise_error(NumberMuncher::InvalidNumber)
+        expect { described_class.new('1/2 abc').call }.to raise_error(NumberMuncher::InvalidNumber)
+        expect { described_class.new('abc 1/2').call }.to raise_error(NumberMuncher::InvalidNumber)
+        expect { described_class.new('1/0').call }.to raise_error(NumberMuncher::InvalidNumber)
+      end
+    end
+
+    context 'when given a Rational' do
+      it 'passes it through' do
+        expect(1/2r).to parse_to(1/2r)
+      end
+    end
+
+    context 'when given a Float' do
+      it 'passes it through' do
+        expect(Math::PI).to parse_to(Math::PI)
+      end
+    end
+
+    context 'when given a Numeric' do
+      let(:numeric) { NumberMuncher::Numeric.new(5) }
+
+      it 'passes it through' do
+        expect(numeric).to parse_to(numeric)
       end
     end
 
     context 'when given a phrase' do
       it 'raises an exception' do
-        expect { described_class.call('1 2') }.to raise_error(NumberMuncher::InvalidParseExpression)
+        expect { described_class.new('1 2').call }.to raise_error(NumberMuncher::InvalidParseExpression)
       end
     end
 

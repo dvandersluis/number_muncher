@@ -31,8 +31,10 @@ Other inputs, including invalid fractions (eg. `1/0`), are considered invalid an
 Parsing a numeric string for a single `Rational` (which can then have `to_i`, `to_f`, etc. called on it as per your needs):
 
 ```ruby
-NumberMuncher.parse('4 1/2')
-#=> 9/2r
+NumberMuncher.parse('4 1/2') #=> 9/2r
+
+# or equivalent:
+NumberMuncher::Numeric.new('4 1/2') 
 ```
 
 If the input string contains multiple numbers (other than mixed fractions), `NumberMuncher::InvalidParseExpression` will be raised.
@@ -51,20 +53,28 @@ NumberMuncher.scan('Cook at 375° for 10 minutes, flip and cook for another 5.5 
 Returns a fraction string for a given numeric value.
 
 ```ruby
-NumberMuncher.to_fraction(1/4r) #=> '¼'
-NumberMuncher.to_fraction(9.625) #=> '9⅝'
+NumberMuncher.to_fraction(1/4r) #=> "¼"
+NumberMuncher.to_fraction(9.625) #=> "9⅝"
 
 # Without using unicode glyphs:
-NumberMuncher.to_fraction(1/4r, unicode: false) #=> '1/4'
-NumberMuncher.to_fraction(9.625, unicode: false) #=> '9 5/8'
+NumberMuncher.to_fraction(1/4r, unicode: false) #=> "1/4"
+NumberMuncher.to_fraction(9.625, unicode: false) #=> "9 5/8"
 
 # Rounding:
-NumberMuncher.to_fraction(3/7r, round_to: 1/4r) #=> '½'
+NumberMuncher.to_fraction(3/7r, round_to: 1/4r) #=> "½"
 
 # Rationalizing (adjust the fraction precision, default = 0.001):
-NumberMuncher.to_fraction(Math::PI) #=> '3 9/64'
-NumberMuncher.to_fraction(Math::PI, factor: 0.1) #=> '3⅕'
-NumberMuncher.to_fraction(Math::PI, factor: 0.0000000000000001) #=> '3 39854788871587/281474976710656'  
+NumberMuncher.to_fraction(Math::PI) #=> "3 9/64"
+NumberMuncher.to_fraction(Math::PI, factor: 0.1) #=> "3⅕"
+NumberMuncher.to_fraction(Math::PI, factor: 0.0000000000000001) #=> "3 39854788871587/281474976710656"  
+```
+
+`to_fraction` can also be called as an instance method. Note that this method does not take a `round_to` argument, but you can chain `round` before calling `to_fraction`:
+
+```ruby
+NumberMuncher.parse('3.456').to_fraction #=> "3 21/46" 
+NumberMuncher.parse('3.456').round(0.1).to_fraction #=> "3½"
+NumberMuncher.parse('3.456').round(0.1).to_fraction(unicode: false) #=> "3 1/2"
 ```
 
 ## Installation

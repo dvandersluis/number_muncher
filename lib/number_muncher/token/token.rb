@@ -1,15 +1,29 @@
 module NumberMuncher
   class Token
     class Token
-      attr_reader :text
+      attr_reader :value, :text
+      delegate :to_r, to: :value
 
       def self.scan(scanner)
-        new(scanner.matched, scanner) if scanner.scan(regex)
+        new(scanner.matched, captures(scanner)) if scanner.scan(regex)
       end
 
-      def initialize(text, scanner = nil)
+      def self.captures(scanner)
+        if scanner.respond_to?(:captures)
+          scanner.captures.map(&:presence)
+        else
+          match = self.class.regex.match(text)
+
+          match.regexp.named_captures.each_with_object([]) do |(capture, _), arr|
+            arr << match[capture]
+          end
+        end
+      end
+
+      def initialize(text, captures = nil)
         @text = text
-        @scanner = scanner
+        @captures = captures
+        @value = Numeric.new(parse)
       end
 
       def int?
@@ -22,10 +36,6 @@ module NumberMuncher
 
       def fraction?
         false
-      end
-
-      def value
-        Rational(text)
       end
 
       def to_a
@@ -47,7 +57,11 @@ module NumberMuncher
 
     private
 
-      attr_reader :scanner
+      def parse
+        Rational(text)
+      end
+
+      attr_reader :captures
     end
   end
 end

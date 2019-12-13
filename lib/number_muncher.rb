@@ -13,7 +13,7 @@ module NumberMuncher
   config_accessor(:decimal_separator, instance_accessor: false) { '.' }
 
   def self.parse(str)
-    Parser.parse(str)
+    Numeric.new(str)
   end
 
   def self.scan(str)
@@ -21,9 +21,11 @@ module NumberMuncher
   end
 
   def self.to_fraction(value, round_to: nil, **opts)
-    ToFraction.new(**opts).call(value, round_to: round_to)
+    parse(value).round(round_to).to_fraction(**opts)
   end
 end
+
+require 'number_muncher/numeric'
 
 require 'number_muncher/unicode'
 require 'number_muncher/tokenizer'
