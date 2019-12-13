@@ -5,15 +5,7 @@ module NumberMuncher
     alias_method :rational, :__getobj__
 
     def initialize(value)
-      value = case value
-        when String
-          Parser.new(value).call.to_r
-
-        else
-          Rational(value)
-      end
-
-      super(value)
+      super(parse(value))
     end
 
     def to_r
@@ -37,6 +29,15 @@ module NumberMuncher
 
     def to_fraction(**opts)
       ToFraction.new(opts).call(self)
+    end
+
+  private
+
+    def parse(value)
+      Rational(value)
+
+    rescue ArgumentError
+      Parser.new(value).call.to_r
     end
   end
 end
