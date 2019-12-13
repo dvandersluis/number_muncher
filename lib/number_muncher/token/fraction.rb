@@ -1,7 +1,7 @@
 module NumberMuncher
   class Token
     class Fraction < Token
-      delegate :numerator, :denominator, to: :to_r
+      delegate :numerator, :denominator, to: :value
 
       def self.regex
         %r{
@@ -20,8 +20,8 @@ module NumberMuncher
         raise ZeroDivisionError if denominator == '0'
       end
 
-      def to_r
-        @to_r ||= parse
+      def value
+        @value ||= parse
       end
 
       def fraction?
@@ -34,7 +34,7 @@ module NumberMuncher
         sign, whole, numerator, denominator, unicode = captures
 
         value = unicode ? Unicode::MAPPING[unicode] : Rational(numerator, denominator)
-        value += Int.new(whole).to_r if whole
+        value += Int.new(whole).value if whole
         value *= -1 if sign
         value
       end

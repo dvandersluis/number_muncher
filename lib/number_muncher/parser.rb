@@ -6,7 +6,7 @@ module NumberMuncher
 
       raise InvalidParseExpression, 'parse requires a single number' unless tokens.size == 1
 
-      tokens.first.to_r
+      tokens.first.value
 
     rescue ArgumentError, ZeroDivisionError
       raise InvalidNumber, "#{string} is not valid input to parse."

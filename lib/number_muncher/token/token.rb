@@ -24,14 +24,14 @@ module NumberMuncher
         false
       end
 
-      def to_r
+      def value
         Rational(text)
       end
 
       def to_a
         [
           self.class.name.demodulize.underscore.to_sym,
-          to_r
+          value
         ]
       end
 
