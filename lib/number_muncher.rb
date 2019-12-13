@@ -22,6 +22,7 @@ end
 
 require 'number_muncher/unicode'
 require 'number_muncher/tokenizer'
+require 'number_muncher/to_fraction'
 
 require 'number_muncher/token/token'
 require 'number_muncher/token/int'
