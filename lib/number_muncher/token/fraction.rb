@@ -10,7 +10,7 @@ module NumberMuncher
           (
             (?<numerator>\d+)\s*/\s*(?<denominator>\d+)
             |
-            (?<unicode>#{NumberMuncher::Unicode::REGEX})
+            (?<unicode>#{Unicode::REGEX})
           )
         }x
       end
@@ -33,7 +33,7 @@ module NumberMuncher
       def parse
         sign, whole, numerator, denominator, unicode = captures
 
-        value = unicode ? NumberMuncher::Unicode::MAPPING[unicode] : Rational(numerator, denominator)
+        value = unicode ? Unicode::MAPPING[unicode] : Rational(numerator, denominator)
         value += Int.new(whole).to_r if whole
         value *= -1 if sign
         value

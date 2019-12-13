@@ -36,7 +36,7 @@ module NumberMuncher
     def glyph
       return nil unless unicode? && fraction
 
-      NumberMuncher::Unicode::MAPPING.key(fraction)
+      Unicode::MAPPING.key(fraction)
     end
 
     def whole

@@ -1,6 +1,6 @@
 module NumberMuncher
   class Tokenizer
-    INVALID_REGEX = /(?![#{NumberMuncher::Unicode::VALUES.join}])\S+/.freeze
+    INVALID_REGEX = /(?![#{Unicode::VALUES.join}])\S+/.freeze
 
     include Enumerable
 
