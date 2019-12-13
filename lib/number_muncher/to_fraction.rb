@@ -14,7 +14,7 @@ module NumberMuncher
 
       separator = glyph ? '' : ' '
       parts = [whole, glyph || fraction].compact
-      parts.empty? ? '0' : "#{sign}#{parts.map(&:to_s).join(separator)}"
+      "#{sign}#{parts.map(&:to_s).join(separator)}"
     end
 
   private
