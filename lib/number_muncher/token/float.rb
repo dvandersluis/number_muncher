@@ -5,7 +5,7 @@ module NumberMuncher
         /(#{Int.regex}|-?)#{Regexp.quote(NumberMuncher.decimal_separator)}\d+/
       end
 
-      def value
+      def text
         super.delete(NumberMuncher.thousands_separator).tr(NumberMuncher.decimal_separator, '.')
       end
 

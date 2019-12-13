@@ -5,7 +5,7 @@ module NumberMuncher
         /-?(\d{1,3}(#{Regexp.quote(NumberMuncher.thousands_separator)}\d{3})+|\d+)/
       end
 
-      def value
+      def text
         super.delete(NumberMuncher.thousands_separator)
       end
 

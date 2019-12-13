@@ -15,7 +15,7 @@ module NumberMuncher
         }x
       end
 
-      def initialize(value, scanner)
+      def initialize(*)
         super
         raise ZeroDivisionError if denominator == '0'
       end
@@ -43,7 +43,7 @@ module NumberMuncher
         if scanner.respond_to?(:captures)
           scanner.captures.map(&:presence)
         else
-          match = self.class.regex.match(value)
+          match = self.class.regex.match(text)
 
           match.regexp.named_captures.each_with_object([]) do |(capture, _), arr|
             arr << match[capture]

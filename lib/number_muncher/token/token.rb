@@ -1,15 +1,14 @@
 module NumberMuncher
   class Token
     class Token
-      attr_reader :value
-      attr_accessor :raw_value
+      attr_reader :text
 
       def self.scan(scanner)
         new(scanner.matched, scanner) if scanner.scan(regex)
       end
 
-      def initialize(value, scanner = nil)
-        @raw_value = @value = value
+      def initialize(text, scanner = nil)
+        @text = text
         @scanner = scanner
       end
 
@@ -26,7 +25,7 @@ module NumberMuncher
       end
 
       def to_r
-        Rational(value)
+        Rational(text)
       end
 
       def to_a
