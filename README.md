@@ -1,6 +1,6 @@
 # NumberMuncher
 
-[![Build Status](https://travis-ci.org/dvandersluis/fractions.svg?branch=master)](https://travis-ci.org/dvandersluis/fractions)
+[![Build Status](https://travis-ci.org/dvandersluis/number_muncher.svg?branch=master)](https://travis-ci.org/dvandersluis/fractions)
 [![Gem Version](https://badge.fury.io/rb/number_muncher.svg)](https://badge.fury.io/rb/number_muncher)
 
 Parses strings into numbers, including integers, decimals, and fractions (including unicode fraction glyphs like `⅐`). 
