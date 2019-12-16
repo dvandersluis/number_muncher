@@ -5,14 +5,14 @@ module NumberMuncher
       delegate :to_r, to: :value
 
       def self.scan(scanner)
-        new(scanner.matched, captures(scanner)) if scanner.scan(regex)
+        new(scanner.matched, captures(scanner, scanner.matched)) if scanner.scan(regex)
       end
 
-      def self.captures(scanner)
+      def self.captures(scanner, text)
         if scanner.respond_to?(:captures)
           scanner.captures.map(&:presence)
         else
-          match = self.class.regex.match(text)
+          match = regex.match(text)
 
           match.regexp.named_captures.each_with_object([]) do |(capture, _), arr|
             arr << match[capture]
