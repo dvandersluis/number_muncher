@@ -4,7 +4,7 @@ RSpec.describe NumberMuncher::ToFraction do
 
   let(:options) { { unicode: unicode, factor: factor }.compact }
 
-  subject { described_class.new(options) }
+  subject { described_class.new(**options) }
 
   it 'handles nil' do
     expect(subject.call(nil)).to eq('')

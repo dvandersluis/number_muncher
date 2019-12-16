@@ -4,7 +4,7 @@ RSpec::Matchers.define(:parse_to) do |expected|
     expect(@result).to eq(expected)
   end
 
-  chain :with_options do |**options|
+  chain :with_options do |options = {}|
     options.each do |key, val|
       allow(NumberMuncher.config).to receive(key).and_return(val)
     end
