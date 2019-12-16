@@ -1,6 +1,6 @@
 module NumberMuncher
-  class Token
-    class Token
+  module Token
+    class Base
       attr_reader :value, :text
       delegate :to_r, to: :value
 

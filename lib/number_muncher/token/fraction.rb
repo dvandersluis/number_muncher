@@ -1,6 +1,6 @@
 module NumberMuncher
-  class Token
-    class Fraction < Token
+  module Token
+    class Fraction < Base
       def self.regex
         %r{
           (?<sign>-)?

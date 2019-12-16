@@ -79,7 +79,7 @@ NumberMuncher.parse('3.456').round(0.1).to_fraction(unicode: false) #=> "3 1/2"
 
 ## Installation
 
-`NumberMuncher` requires ruby >= 2.3.
+`NumberMuncher` requires ruby >= 2.4.4.
 
 Add this line to your application's Gemfile:
 

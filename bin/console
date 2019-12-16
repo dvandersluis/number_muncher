@@ -6,6 +6,11 @@ require 'number_muncher'
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
 
+def reload!
+  puts 'Reloading...'
+  NumberMuncher::Loader.instance.reload
+end
+
 # (If you use this, don't forget to add pry to your Gemfile!)
 require 'pry'
 Pry.start

@@ -1,6 +1,8 @@
 require 'active_support/all'
 
-require 'number_muncher/version'
+# Setup zeitwerk
+require 'number_muncher/loader'
+NumberMuncher::Loader.instance.setup
 
 module NumberMuncher
   include ActiveSupport::Configurable
@@ -24,16 +26,3 @@ module NumberMuncher
     parse(value).round(round_to).to_fraction(**opts)
   end
 end
-
-require 'number_muncher/numeric'
-
-require 'number_muncher/unicode'
-require 'number_muncher/tokenizer'
-require 'number_muncher/to_fraction'
-
-require 'number_muncher/token/token'
-require 'number_muncher/token/int'
-require 'number_muncher/token/float'
-require 'number_muncher/token/fraction'
-
-require 'number_muncher/parser'

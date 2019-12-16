@@ -1,6 +1,6 @@
 module NumberMuncher
-  class Token
-    class Float < Token
+  module Token
+    class Float < Base
       def self.regex
         /(#{Int.regex}|-?)#{Regexp.quote(NumberMuncher.decimal_separator)}\d+/
       end

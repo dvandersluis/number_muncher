@@ -1,6 +1,6 @@
 module NumberMuncher
-  class Token
-    class Int < Token
+  module Token
+    class Int < Base
       def self.regex
         /-?(\d{1,3}(#{Regexp.quote(NumberMuncher.thousands_separator)}\d{3})+|\d+)/
       end
